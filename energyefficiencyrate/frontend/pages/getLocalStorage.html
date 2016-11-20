@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    var a1 = localStorage["a"];//获取a的值
+    var a2 = localStorage.a;//获取a的值
+    var b = localStorage.getItem("b");//获取b的值
+    localStorage.removeItem("c");//清除c的值
+    console.log(a1+"||"+a2);
+
+    var storage = window.localStorage;
+    function showStorage(){
+        for(var i=0;i<storage.length;i++){
+            //key(i)获得相应的键，再用getItem()方法获得对应的值
+            document.write(storage.key(i)+ " : " + storage.getItem(storage.key(i)) + "<br>");
+        }
+    }
+</script>
+<input type="button" onclick="showStorage()" value="test">
+</body>
+</html>

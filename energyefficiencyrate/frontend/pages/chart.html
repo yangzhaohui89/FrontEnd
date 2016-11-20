@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="../sources/bootstrap/css/bootstrap.min.css">
+	<!-- 可选的Bootstrap主题文件（一般不用引入） -->
+	<!--<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">-->
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script type="text/javascript" src="../sources/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../sources/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="../sources/highcharts/modules/exporting.js"></script>
+	<script type="text/javascript" src="../sources/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../sources/saveSvgAsPng/saveSvgAsPng.js"></script>
+	<title>1</title>
+</head>
+<body>
+<div id="container" style="min-width:400px;height:400px;"></div>
+<button id="button">View SVG</button>
+<div id ="test2" hidden></div>
+<script>
+	$(function () {
+		$('#container').highcharts({
+			credits: {
+				enabled: false
+			},
+			xAxis: {
+				categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+			},
+			series: [{
+				data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+			}]
+		});
+		// the button handler
+		$('#button').click(function () {
+			var chart = $('#container').highcharts();
+			var svg = chart.getSVG().replace(/</g, '\n<') // make it slightly more readable
+					.replace(/>/g, '>');
+//				console.log(svg);
+			$('#test2').html(svg);
+//				var test222 =$('#test2');.html();
+			var test222=document.getElementById("test2").getElementsByTagName("svg")[0]
+			console.log(test222);
+			saveSvgAsPng(test222,"t111111est.png");
+		});
+	});
+</script>
+</body>
+</html>

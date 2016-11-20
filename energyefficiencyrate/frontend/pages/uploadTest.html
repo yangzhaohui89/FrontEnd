@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+<title></title>
+</head>
+<body>
+<input type="file" id="fileId"/>
+</body>
+<script type="text/javascript">
+ $("#fileId").change(function(){
+  alert(this);
+  var fileName = this.value;
+  alert(fileName);
+  if(fileName.length > 1 && fileName ) {
+   var ldot = fileName.lastIndexOf(".");
+   var type = fileName.substring(ldot + 1);
+   console.log(type);
+   if(type != "img") {
+    alert(type);
+   }
+  }
+ });
+</script>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+/*    dt2 = new Date();
+    var weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+    alert(weekDay[dt2.getDay()]);
+    var a="工作日";
+    var b="工作日";
+    alert(a==b);*/
+//    var tmp = "NaN";
+//    if (!tmp)
+//    {
+//        alert("null or undefined or NaN");
+//    } else{
+//        alert("String");
+//    }
+
+//
+//function _isInsidePolygon(pt, poly) {
+//    for (var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
+//        ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
+//        && (pt.x < (poly[j].x - poly[i].x) * (pt.y - poly[i].y) / (poly[j].y - poly[i].y) + poly[i].x)
+//        && (c = !c);
+//    return c;
+//}
+
+function pointInPolygon(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0];
+        var yi = vs[i][1];
+        var xj = vs[j][0];
+        var yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+
+    return inside;
+}
+
+var piont1 =[19, 10];
+var piont2 =[19,5];
+var piont3 =[24, 35];
+var piont4=[25,40]
+
+//var tmp = [[18,0],[18,13],[20,0],[20,15],[26,42],[26,49]];
+//var tmp = [[18,0],[18,13],[20,0],[20,15],[26,42],[26,49]];
+
+//var tmp=[[18,0],[20,0],[20,15],[26,42],[26,49],[18,13]];
+var tmp=[[26,49],[18,13],[18,0],[20,0],[20,15],[26,42]];
+var result1 = pointInPolygon(piont1,tmp);
+var result2 = pointInPolygon(piont2,tmp);
+var result3 = pointInPolygon(piont3,tmp);
+var result4 = pointInPolygon(piont4,tmp);
+
+alert(result1+"|"+result2+"|"+result3+"|"+result4);
+</script>
+</body>
+</html>

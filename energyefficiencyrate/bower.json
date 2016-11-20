@@ -1,0 +1,17 @@
+{
+  "name": "energy-efficiency-rate",
+  "version": "0.0.0",
+  "dependencies": {
+    "bootstrap": "^3.2.0",
+    "lodash": "^4.13.1",
+    "jquery": "^2.0.0",
+    "highcharts": "^4.2.6",
+    "moment": "^2.14.1",
+    "js-xlsx": "^0.8.0",
+    "clockpicker": "^0.0.7"
+  },
+  "devDependencies": {},
+  "appPath": "frontend",
+  "moduleName": "EnergyEfficiencyRate",
+  "overrides": {}
+}

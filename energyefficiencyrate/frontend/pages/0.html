@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../css/energy.css" type="text/css"/>
+    <script type="text/javascript">
+        window.$ = window.jQuery = require('jquery');
+    </script>
+    <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/initLocalStorage.js"></script>
+    <script type="text/javascript" src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <title>能源效率评级工具</title>
+    <style>
+        /*body{
+            padding: 0;
+            border: 0;
+            margin: 0;
+        }*/
+        .firtBankGround{
+            background-color: #337ab7;
+            margin-top: 150px;
+            margin-bottom: 90px;
+            width: 100%;
+            color: white;
+            text-align: center;
+            padding-top:100px ;
+            padding-bottom:50px ;
+        }
+        .head1{
+             font-family:"黑体";
+             font-size: 50px;
+         }
+        .head2{
+            font-size: 21px;
+            margin-bottom: 60px;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="container-fluid firtBankGround">
+        <div class="head1">
+            <label>欢迎使用公共机构环境能源效率综合量化评价工具V1.0</label>
+        </div>
+        <div class="head2">
+            <label>Comprehensive Quantitative Evaluation Tool for Building Energy Efficiency of Public Institution Version1.0</label>
+        </div>
+        <div>
+            <a class="btn btn-default btn-lg" href="./1.html" onclick="clearStorage()">开始评价</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function clearStorage(){
+        window.localStorage.clear();
+    }
+</script>
+</body>
+</html>

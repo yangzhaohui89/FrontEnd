@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- xlsx.js (C) 2013-2015 SheetJS http://sheetjs.com -->
+<!-- vim: set ts=2: -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>JS-XLSX Live Demo</title>
+	<script src="../../bower_components/js-xlsx/dist/xlsx.full.min.js" type="text/javascript"></script>
+	<script src="../../bower_components/lodash/lodash.js" type="text/javascript"></script>
+	<script src="../../bower_components/moment/moment.js" type="text/javascript"></script>
+</head>
+<body>
+<p><input type="file" name="xlfile" id="xlf" /> ... or click here to select a file</p>
+<script>
+	var timeString = '2015-07-09 10:08:25';
+	var result = _.split(timeString, ' ', 1)[0];
+	var datTmp = moment(result);
+	//alert(datTmp>moment());
+	var zdzmStart="2015/07/07";
+	var zdzmEnd="2015/07/17";
+	var timeStart="13:20:00";
+	var timeEnd="16:40:00";
+	var test ="1/16/16";
+	var test1=_.words("dxpm0");
+	console.log("test!!!"+_.endsWith('abc23', '23'));
+	console.log(test1);
+
+	console.log("TEST:"+(moment()>moment(test,'M/D/YY')))
+/*	console.log(moment(zdzmStart,'YYYY/MM/DD')>moment(zdzmEnd,'YYYY/MM/DD'));
+	console.log(moment(timeStart,'HH:mm:ss')>moment(timeEnd,'HH:mm:ss'));
+	console.log(moment(zdzmStart,'YYYY/MM/DD').day());
+	console.log('2016-09-25:'+moment('2016-09-25').day());
+	console.log('2016-09-12:'+moment('2016-09-12').day());
+	console.log('2016-09-24:'+moment('2016-09-24').day());*/
+	var rowMax =_.maxBy([{key: "B2", lineNum: 2, value: "2015-07-09"},{key: "B3", lineNum:10, value: "2015-07-09"},{key: "B4", lineNum:5, value: "2015-07-09"}],'lineNum');
+	console.log("rowMax:"+rowMax.lineNum);
+	var rowMin =_.minBy([{key: "B2", lineNum: 32, value: "2015-07-09"},{key: "B3", lineNum:10, value: "2015-07-09"},{key: "B4", lineNum:5, value: "2015-07-09"}],'lineNum');
+	console.log("rowMin:"+rowMin.lineNum);
+
+var X = XLSX;
+var xlf = document.getElementById('xlf');
+	var wdcnStart='2015-07-01';
+	var wdcnEnd='2016-07-01';
+function handleFile(e) {
+	var files = e.target.files;
+	var f = files[0];
+	var reader = new FileReader();
+	reader.readAsBinaryString(f);
+	reader.onload = function(e) {
+		var data = e.target.result;
+		var wb = X.read(data, {type: 'binary'});
+		var sheet_name = wb.SheetNames[0];
+		var worksheet = wb.Sheets[sheet_name];
+		var B=[];
+		var C=[];
+		//取B，C列
+		for (var z in worksheet) {
+			if(z[0] === '!') continue;
+			//取B列
+			if(_.startsWith(z,'B')) {
+				//去首行-表头
+				if(parseInt(_.trimStart(z,'B'))!=1){
+					var tmp = {};
+					tmp['key']=z;
+					tmp['lineNum']=parseInt(_.trimStart(z,'B'));
+					//顺便将时间处理
+					tmp['value']=_.split(worksheet[z].w,' ',1)[0];
+					B.push(tmp);
+				}
+			}
+			//取C列
+			if(_.startsWith(z,'C')){
+				if(parseInt(_.trimStart(z,'C'))!=1){
+					var tmp = {};
+					tmp['key']=z;
+					tmp['lineNum']=parseInt(_.trimStart(z,'C'));
+					tmp['value']=worksheet[z].v;
+					C.push(tmp);
+				}
+			}
+		}
+		//过滤B列
+		var handleB=_.reject(B, function(n) {
+			return moment(n.value)<moment(wdcnStart) || moment(n.value)>moment(wdcnEnd);
+		});
+		//过滤C列
+		var handleC=_.reject(C, function(n) {
+			return n.lineNum<_.minBy(handleB,'lineNum').lineNum|| n.lineNum>_.maxBy(handleB,'lineNum').lineNum;
+		});
+		console.log(_.sumBy(handleC, 'value')/handleC.length);
+
+	};
+}
+if(xlf.addEventListener) xlf.addEventListener('change', handleFile, false);
+</script>
+</body>
+</html>

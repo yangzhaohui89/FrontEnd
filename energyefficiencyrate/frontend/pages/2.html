@@ -1,0 +1,355 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
+    <!--bootstrap-datetimepicker-->
+    <link href="../../bower_components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen" type="text/css" />
+    <link href="../../bower_components/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../bower_components/clockpicker/dist/bootstrap-clockpicker.min.css">
+    <link rel="stylesheet" href="../css/energy.css" type="text/css"/>
+    <script type="text/javascript">
+//        window.$ = window.jQuery = window.jquery = require('../../bower_components/jquery/dist/jquery.min.js');
+        window.$ = window.jQuery = require('jquery');
+    </script>
+    <script type="text/javascript" src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../../bower_components/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="../../bower_components/lodash/dist/lodash.min.js"></script>
+    <script src="../../bower_components/bootstrap-fileinput/js/fileinput.min.js" type="text/javascript"></script>
+    <script src="../../bower_components/bootstrap-fileinput/js/locales/zh.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../bower_components/clockpicker/dist/bootstrap-clockpicker.min.js"></script>
+    <script type="text/javascript" src="../../bower_components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../../bower_components/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="../../bower_components/js-xlsx/dist/xlsx.full.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../js/util.js"></script>
+    <script type="text/javascript" src="../js/fileupload.js"></script>
+    <script type="text/javascript" src="../js/handleData.js"></script>
+    <script type="text/javascript" src="../js/reLoadData.js"></script>
+    <title>能源效率评级工具</title>
+    <style type="text/css">
+	/*<![CDATA[*/
+    .control-label {
+    padding-top: 7px;
+    }
+    /*]]>*/
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row section-title">
+            <div class="col-xs-12 col-md-12">
+                <h3>环境质量与建筑用能</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5"></div>
+        </div>
+
+        <div class="row">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">室内温度/采暖能耗(Q/L)<sub>h</sub>评价</a></h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">日期范围</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">起始日期</span>
+                                            <input type="text" value="" id="wdcnStart" class="form-control form_date" data-date-format="yyyy-mm-dd" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">截止日期</span>
+                                            <input type="text" value="" id="wdcnEnd" class="form-control form_date" data-date-format="yyyy-mm-dd" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">温湿度数据</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <input type="file" id="wsd1" multiple/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">采暖能耗</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="采暖能耗" id="dwmjcnnh"/>
+                                            <div class="input-group-addon">
+                                                kWh/a
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">室内温度/空调能耗(Q/L)<sub>c</sub>评价</a></h4>
+                    </div>
+
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">日期范围</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">起始日期</span>
+                                            <input type="text" value="" id="wdktStart" class="form-control form_date" data-date-format="yyyy-mm-dd" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">截止日期</span>
+                                            <input type="text" value="" id="wdktEnd" class="form-control form_date" data-date-format="yyyy-mm-dd" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">温湿度数据</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <input type="file" id="wsd2" multiple/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">空调能耗</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="空调能耗" id="dwmjktnh"/>
+
+                                            <div class="input-group-addon">
+                                                kWh/a
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">室内照度/照明能耗(Q/L)<sub>i</sub>评价</a></h4>
+                    </div>
+
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">日期范围</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">起始日期</span>
+                                            <input type="text" value="" id="zdzmStart" class="form-control form_date" data-date-format="yyyy-mm-dd" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">截止日期</span>
+                                            <input type="text" value="" id="zdzmEnd" class="form-control form_date" data-date-format="yyyy-mm-dd" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3"></div>
+
+                                <div class="col-md-3">
+                                    <label class="control-label"><input type="radio" name="workdayOrWeek" value="工作日" />工作日</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label class="control-label"><input type="radio" name="workdayOrWeek" value="全周" />全周</label>
+                                </div>
+
+                                <div class="col-md-3"></div>
+                            </div><br />
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">时间范围</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group clockpicker">
+                                            <span class="input-group-addon">起始时间</span>
+                                            <input type="text" class="form-control" id="timeStart" value="09:00">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group clockpicker">
+                                            <span class="input-group-addon">截止时间</span>
+                                            <input type="text" class="form-control" id="timeEnd" value="18:00">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-time"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                   <label class="control-label">照度数据</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <input type="file" id="zdsj" multiple/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">照明能耗</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="照明能耗" id="dwmjzmhn"/>
+
+                                            <div class="input-group-addon">
+                                                kWh/a
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingFour">
+                        <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">其他环境质量/其他能耗(Q/L)<sub>s</sub>评价</a></h4>
+                    </div>
+
+                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">满意度数据</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <form enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <input type="file" id="mydsj" multiple/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="control-label">其他能耗</label>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="其他能耗" id="qtdwmjhn"/>
+
+                                            <div class="input-group-addon">
+                                                kWh/a
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-1 col-md-1">
+                <a class="btn btn-default" href="./1.html">上一步</a>
+            </div>
+
+            <div class="col-xs-10 col-md-10"></div>
+
+            <div class="col-xs-1 col-md-1">
+                <a class="btn btn-default" href="./3.html" id="step2">下一步</a>
+                <!--<a class="btn btn-default" href="#" id="step2">下一步</a>-->
+            </div>
+        </div>
+    </div>
+</body>
+</html>
